@@ -1,36 +1,41 @@
 document.addEventListener("DOMContentLoaded", startMatch);
-console.log("gil");
+
 
 function startMatch() {
-     console.log("tomer");
+     
   const ball = document.querySelector("#ball");
   const field = document.querySelector("#background");
 
-  field.addEventListener("click", clickPosition, false);
-
-  function clickPosition(e) {
-     let xPosition = e.clientX - (ball.offsetWidth / 2 );
-     let yPosition = e.clientY - (ball.offsetHeight / 2 );
-
-     let translate3dValue = "translate3d(" + xPosition + "px," +
-     yPosition + "px, 0)";
-
-     ball.style.transform = translate3dValue;
+  field.addEventListener("click", getClickPosition, false);
+ 
+  function getClickPosition(e) {
+      let parentPosition = getPosition(e.currentTarget);
+      let xPosition = e.clientX - parentPosition.x - (ball.clientWidth / 2);
+      let yPosition = e.clientY - parentPosition.y - (ball.clientHeight / 2);
+       
+      ball.style.left = xPosition + "px";
+      ball.style.top = yPosition + "px";
   }
-   function getPosition(element) {
-        let xPosition = 0;
-        let yPosition = 0;
-
-        while(element){
-          xPosition += (element.offsefLeft - 
-          element.scrollLeft + element.clientLeft);
-          yPosition += (element.offsetTop - 
-          element.scrollTop + element.clientTop);
-        }
-        return {
-             x : xPosition,
-             y: yPosition
-        };
-     }  
-
+   
+  function getPosition(el) {
+    var xPos = 0;
+    var yPos = 0;
+   
+    while (el) {
+      if (el.tagName == "BODY") {
+        let xScroll = el.scrollLeft || document.documentElement.scrollLeft;
+        let yScroll = el.scrollTop || document.documentElement.scrollTop;
+   
+        xPos += (el.offsetLeft - xScroll + el.clientLeft);
+        yPos += (el.offsetTop - yScroll + el.clientTop);
+      } else {
+        xPos += (el.offsetLeft - el.scrollLeft + el.clientLeft);
+        yPos += (el.offsetTop - el.scrollTop + el.clientTop);
+      }
+   
+      el = el.offsetParent;
+    }
+    return {
+     xScroll, yScroll}
+  }
 }
