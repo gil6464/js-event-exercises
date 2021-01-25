@@ -36,6 +36,7 @@ function startMatch() {
       el = el.offsetParent;
     }
     return {
-     xScroll, yScroll}
+     x : xPos, 
+     y : yPos}
   }
 }
