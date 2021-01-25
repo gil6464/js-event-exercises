@@ -16,5 +16,21 @@ function startMatch() {
      yPosition + "px, 0)";
 
      ball.style.transform = translate3dValue;
-   }
+  }
+   function getPosition(element) {
+        let xPosition = 0;
+        let yPosition = 0;
+
+        while(element){
+          xPosition += (element.offsefLeft - 
+          element.scrollLeft + element.clientLeft);
+          yPosition += (element.offsetTop - 
+          element.scrollTop + element.clientTop);
+        }
+        return {
+             x : xPosition,
+             y: yPosition
+        };
+     }  
+
 }
