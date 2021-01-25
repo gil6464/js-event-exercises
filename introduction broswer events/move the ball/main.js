@@ -1,9 +1,20 @@
-// document.addEventListener("DOMCotentLoaded", startMatch);
+document.addEventListener("DOMContentLoaded", startMatch);
+console.log("gil");
 
-const ball = document.querySelector("#ball");
+function startMatch() {
+     console.log("tomer");
+  const ball = document.querySelector("#ball");
+  const field = document.querySelector("#background");
 
-// function startMatch() {
-//      let fieldCoords = this.getBoundingClientRect();
-//      const div = document.querySelector("#background");
+  field.addEventListener("click", clickPosition, false);
 
-//      div.addEventListener("click";
+  function clickPosition(e) {
+     let xPosition = e.clientX - (ball.offsetWidth / 2 );
+     let yPosition = e.clientY - (ball.offsetHeight / 2 );
+
+     let translate3dValue = "translate3d(" + xPosition + "px," +
+     yPosition + "px, 0)";
+
+     ball.style.transform = translate3dValue;
+   }
+}
