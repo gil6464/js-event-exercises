@@ -4,11 +4,11 @@ document.addEventListener("DOMContentLoaded", () =>{
 
      document.addEventListener('click', (e) => {
 
-     if (e.target.tagName === "p" || e.target.closest('p')) {
+     if (e.target.closest('p')) {
           e.preventDefault();
 
           const newMain = e.target.attributes.src.value;
           bigImage.attributes.src.value = newMain;  
-     }
-})
-})
+     };
+});
+});
