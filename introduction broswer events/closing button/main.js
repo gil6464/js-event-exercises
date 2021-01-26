@@ -6,11 +6,9 @@ function start() {
     for (let para of paragraph) {
       para.insertAdjacentHTML("afterbegin", '<button class="delete-button">x</button>');
     
-      para.firstChild.addEventListener("click", deleteMe);
-
-      function deleteMe() { 
-          para.remove();
-      }
-    };
+      para.firstChild.addEventListener("click", (e)=> {
+       para.remove();
+    });
   
 };
+}

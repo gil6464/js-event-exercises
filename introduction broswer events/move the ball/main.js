@@ -3,40 +3,40 @@ document.addEventListener("DOMContentLoaded", startMatch);
 
 function startMatch() {
      
-  const ball = document.querySelector("#ball");
+  let ball = document.querySelector("#ball");
   const field = document.querySelector("#background");
+  field.addEventListener("click",(event)=> {
 
-  field.addEventListener("click", getClickPosition, false);
- 
-  function getClickPosition(e) {
-      let parentPosition = getPosition(e.currentTarget);
-      let xPosition = e.clientX - parentPosition.x - (ball.clientWidth / 2);
-      let yPosition = e.clientY - parentPosition.y - (ball.clientHeight / 2);
-       
-      ball.style.left = xPosition + "px";
-      ball.style.top = yPosition + "px";
-  }
-   
-  function getPosition(el) {
-    var xPos = 0;
-    var yPos = 0;
-   
-    while (el) {
-      if (el.tagName == "BODY") {
-        let xScroll = el.scrollLeft || document.documentElement.scrollLeft;
-        let yScroll = el.scrollTop || document.documentElement.scrollTop;
-   
-        xPos += (el.offsetLeft - xScroll + el.clientLeft);
-        yPos += (el.offsetTop - yScroll + el.clientTop);
-      } else {
-        xPos += (el.offsetLeft - el.scrollLeft + el.clientLeft);
-        yPos += (el.offsetTop - el.scrollTop + el.clientTop);
-      }
-   
-      el = el.offsetParent;
+    // window-relative field coordinates
+    let fieldCoords = this.getBoundingClientRect();
+
+    // the ball has position:absolute, the field: position:relative
+    // so ball coordinates are relative to the field inner left-upper corner
+    let ballCoords = {
+      top: event.clientY - fieldCoords.top - field.clientTop - ball.clientHeight / 2,
+      left: event.clientX - fieldCoords.left - field.clientLeft - ball.clientWidth / 2
+    };
+
+    // prevent crossing the top field boundary
+    if (ballCoords.top < 0) ballCoords.top = 0;
+
+    // prevent crossing the left field boundary
+    if (ballCoords.left < 0) ballCoords.left = 0;
+
+
+    // // prevent crossing the right field boundary
+    if (ballCoords.left + ball.clientWidth > field.clientWidth) {
+      ballCoords.left = field.clientWidth - ball.clientWidth;
     }
-    return {
-     x : xPos, 
-     y : yPos}
-  }
-}
+
+    // prevent crossing the bottom field boundary
+    if (ballCoords.top + ball.clientHeight > field.clientHeight) {
+      ballCoords.top = field.clientHeight - ball.clientHeight;
+    }
+
+    ball.style.left = ballCoords.left + 'px';
+    ball.style.top = ballCoords.top + 'px';
+  })
+};
+
+
