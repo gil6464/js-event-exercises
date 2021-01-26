@@ -1,0 +1,10 @@
+.pic{
+     height: 200px;
+}
+ #large-pic{
+      height: 300px;
+ }
+ p {
+      margin: auto;
+      display: inline;
+ }
