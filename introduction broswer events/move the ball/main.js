@@ -1,41 +1,37 @@
 document.addEventListener("DOMContentLoaded", startMatch);
 
-
 function startMatch() {
      
-  let ball = document.querySelector("#ball");
+  const ball = document.querySelector("#ball");
   const field = document.querySelector("#background");
   field.addEventListener("click",(event)=> {
 
-    // window-relative field coordinates
-    let fieldCoords = this.getBoundingClientRect();
+    // Get client field coordinates:
+    let fieldCoords = event.currentTarget.getBoundingClientRect();
 
-    // the ball has position:absolute, the field: position:relative
-    // so ball coordinates are relative to the field inner left-upper corner
-    let ballCoords = {
-      top: event.clientY - fieldCoords.top - field.clientTop - ball.clientHeight / 2,
-      left: event.clientX - fieldCoords.left - field.clientLeft - ball.clientWidth / 2
-    };
-
-    // prevent crossing the top field boundary
-    if (ballCoords.top < 0) ballCoords.top = 0;
-
-    // prevent crossing the left field boundary
-    if (ballCoords.left < 0) ballCoords.left = 0;
-
-
-    // // prevent crossing the right field boundary
-    if (ballCoords.left + ball.clientWidth > field.clientWidth) {
-      ballCoords.left = field.clientWidth - ball.clientWidth;
+    // Sync the ball and the field to the top left:
+    let ballTop = event.clientY - fieldCoords.top - field.clientTop - ball.clientHeight / 2 
+    let ballLeft= event.clientX - fieldCoords.left - field.clientLeft - ball.clientWidth / 2
+      
+    // If the client clicked on spot so the ball is pass the border, it will be on the border:
+    
+    if (ballTop < 0) {
+      ballTop = 0;
+    }
+    if (ballLeft < 0) {
+      ballLeft = 0;
     }
 
-    // prevent crossing the bottom field boundary
-    if (ballCoords.top + ball.clientHeight > field.clientHeight) {
-      ballCoords.top = field.clientHeight - ball.clientHeight;
+    if (ballLeft + ball.clientWidth > field.clientWidth) {
+      ballLeft = field.clientWidth - ball.clientWidth;
     }
 
-    ball.style.left = ballCoords.left + 'px';
-    ball.style.top = ballCoords.top + 'px';
+    if (ballTop + ball.clientHeight > field.clientHeight) {
+      ballTop = field.clientHeight - ball.clientHeight;
+    }
+    // set the ball position as needed
+    ball.style.left = ballLeft + 'px';
+    ball.style.top = ballTop + 'px';
   })
 };
 
