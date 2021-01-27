@@ -1,10 +1,10 @@
 document.addEventListener("DOMContentLoaded", () => {
-     const div = document.querySelector("#cont");
+     const tree = document.querySelector(".tree");
      
-     div.addEventListener("click", (event) => {
-          if(event.target.tagName !== ("P")) return;
-          let city = event.target.parentNode.querySelector("ul");
+     tree.addEventListener("click", (event) => {
+          if(event.target.tagName !== ("LI")) return;
+          let state = event.target.querySelector("UL");
 
-          city.hidden = !city.hidden;
-     })
-})
+          state.hidden = !state.hidden;
+     });
+});
